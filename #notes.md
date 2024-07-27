@@ -1,0 +1,5 @@
+- 现有本地仓库的分支与自建远程仓库分支均为master（不是main！）
+- 用github仓库主要是为了备份进度，方便管理（特别是出现程序bug时回滚等）
+- 用`git add <...>`（add单个文件，文件夹或全部（`.`））添加要commit的文件
+- 用`git commit -m "..."`在本地做commit
+- `git push origin master`推送到远程
