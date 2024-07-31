@@ -6,7 +6,7 @@ import java.util.List;
  * Created by hug on 2/4/2017. Methods are provided in the suggested order
  * that they should be completed.
  */
-public interface Deque61B<T> {
+public interface Deque61B<T> extends Iterable<T> {
 
     /**
      * Add {@code x} to the front of the deque. Assumes {@code x} is never null.
@@ -77,4 +77,21 @@ public interface Deque61B<T> {
      * @return element at {@code index} in the deque
      */
     T getRecursive(int index);
+
+    // equality
+
+    default public boolean equalsHelper(Object o) {
+        if (o == null)
+            return false;
+        if (!(o instanceof Deque61B<?>))
+            return false;
+        Deque61B<?> d = (Deque61B<?>) o;
+        if (!(size() == d.size()))
+            return false;
+        for (int i = 0; i < size(); ++i) {
+            if (!(get(i).equals(d.get(i))))
+                return false;
+        }
+        return true;
+    }
 }

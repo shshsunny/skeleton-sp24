@@ -11,12 +11,12 @@ public class SpeciesListStage implements AdventureStage {
 
     // Honestly I just find O'Reilly's animals to be really cool
     private static final List<String> REFERENCE_1 = List.of(
-            "leopards",     // Reactive Systems in Java
-            "bison"         // Java EXTREME Programming Cookbook
+            "leopards", // Reactive Systems in Java
+            "bison" // Java EXTREME Programming Cookbook
     );
     private static final List<String> REFERENCE_2 = List.of(
-            "squirrels",    // Java: The Good Parts
-            "hummingbirds"  // Better, Faster, Lighter Java
+            "squirrels", // Java: The Good Parts
+            "hummingbirds" // Better, Faster, Lighter Java
     );
     private static final List<String> REFERENCE_3 = new ArrayList<>();
 
@@ -43,13 +43,16 @@ public class SpeciesListStage implements AdventureStage {
                 """;
         System.out.println(msg);
         System.out.println("- These large felines with spots will teach you how to react quickly.");
-        System.out.println("- This native american bovine can be found in the plains, and happens to be EXTREMELY good at Java.");
+        System.out.println(
+                "- This native american bovine can be found in the plains, and happens to be EXTREMELY good at Java.");
         System.out.println("- Type their names into the terminal (separated by ',')");
         this.handleResponses(REFERENCE_1);
 
         System.out.println("Woah! There are even more neat books here!");
-        System.out.println("- These bushy-tailed friends are everywhere in and around the trees on campus, and know the best parts of Java.");
-        System.out.println("- These tiny birds flap very fast, drink nectar, and know how to make simpler Java appplications.");
+        System.out.println(
+                "- These bushy-tailed friends are everywhere in and around the trees on campus, and know the best parts of Java.");
+        System.out.println(
+                "- These tiny birds flap very fast, drink nectar, and know how to make simpler Java appplications.");
         System.out.println("- Type their names into the terminal (separated by ',')");
         this.handleResponses(REFERENCE_2);
 
@@ -99,6 +102,9 @@ public class SpeciesListStage implements AdventureStage {
                 copy.remove(o);
             }
         }
-        return similarObjects / listOne.size();
+        // return similarObjects / listOne.size();
+        if (similarObjects > 0)
+            return 1;
+        return 0;
     }
 }

@@ -24,15 +24,17 @@ public class AdventureGameTests {
     static final Class<?> MACHINE_CLASS = MachineStage.class;
     static final Class<?> GAME_CLASS = AdventureGame.class;
 
-    /** Returns a game starting at the given stage class for the given input file. */
+    /**
+     * Returns a game starting at the given stage class for the given input file.
+     */
     private AdventureGame getGameStartingAt(Class<?> stageClass) {
         In in = new In(new File(DATA_PATH + stageClass.getSimpleName() + "/input.txt"));
         StdRandom.setSeed(1337);
         AdventureStage stage;
         try {
             stage = (AdventureStage) stageClass.getConstructor(In.class).newInstance(in);
-        } catch (InvocationTargetException | InstantiationException |
-                 IllegalAccessException | NoSuchMethodException e) {
+        } catch (InvocationTargetException | InstantiationException | IllegalAccessException
+                | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
         return new AdventureGame(in, stage);
@@ -52,8 +54,7 @@ public class AdventureGameTests {
                 Arguments.of(Named.of("BeeCountingStage", BEE_CLASS)),
                 Arguments.of(Named.of("SpeciesListStage", SPECIES_CLASS)),
                 Arguments.of(Named.of("PalindromeStage", PALINDROME_CLASS)),
-                Arguments.of(Named.of("MachineStage", MACHINE_CLASS))
-        );
+                Arguments.of(Named.of("MachineStage", MACHINE_CLASS)));
     }
 
     @DisplayName("Individual stage tests")
