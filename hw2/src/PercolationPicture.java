@@ -7,14 +7,14 @@ import edu.princeton.cs.algs4.StdRandom;
 
 public class PercolationPicture {
     // delay in miliseconds (controls animation speed)
-    private static final int DELAY = 100;
+    private static final int DELAY = 0;
 
     // draw N-by-N percolation system
     public static void draw(Percolation perc, int N) {
         StdDraw.clear();
         StdDraw.setPenColor(StdDraw.BLACK);
         StdDraw.setXscale(-.05 * N, 1.05 * N);
-        StdDraw.setYscale(-.05 * N, 1.05 * N);   // leave a border to write text
+        StdDraw.setYscale(-.05 * N, 1.05 * N); // leave a border to write text
 
         // draw N-by-N grid
         for (int row = 0; row < N; row++) {

@@ -1,38 +1,89 @@
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
-
 public class Percolation {
-    // TODO: Add any necessary instance variables.
+
+    private static final int[][] DIRS = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+    private boolean[][] isOpen;
+    private boolean[] isFull;
+    private boolean[] isConnectedToBottom; // a concept corresponding to isFull
+    private boolean percolates;
+    private int n, numberOfOpenSites;
+    private WeightedQuickUnionUF wqu;
+
+    private int enc(int row, int col) {
+        return row * n + col;
+    }
+
+    private boolean valid(int row, int col) {
+        return 0 <= row && row < n && 0 <= col && col < n;
+    }
 
     public Percolation(int N) {
-        // TODO: Fill in this constructor.
+        if (N <= 0)
+            throw new IllegalArgumentException();
+        isOpen = new boolean[N][N];
+        isFull = new boolean[N * N];
+        isConnectedToBottom = new boolean[N * N];
+        percolates = false;
+        n = N;
+        wqu = new WeightedQuickUnionUF(N * N);
+        numberOfOpenSites = 0;
     }
 
     public void open(int row, int col) {
-        // TODO: Fill in this method.
-    }
+        if (!isOpen[row][col]) {
+            isOpen[row][col] = true;
+            boolean thisIsFull = isFull(row, col);
+            boolean thisIsConnectedToBottom = isConnectedToBottom(row, col);
+            for (int i = 0; i < 4; ++i) {
+                int nr = row + DIRS[i][0], nc = col + DIRS[i][1];
+                if (valid(nr, nc) && isOpen[nr][nc]) {
+                    boolean ithIsFull = isFull(nr, nc);
+                    boolean ithIsConnectedToBottom = isConnectedToBottom(nr, nc);
+                    wqu.union(enc(row, col), enc(nr, nc));
+                    int newRoot = wqu.find(enc(row, col));
+                    isFull[newRoot] = isFull[newRoot] || thisIsFull || ithIsFull; // update the representative of this
+                                                                                  // set
+                    // to be full!
+                    isConnectedToBottom[newRoot] = isConnectedToBottom[newRoot] || thisIsConnectedToBottom
+                            || ithIsConnectedToBottom;
+                }
+            }
 
-    public boolean isOpen(int row, int col) {
-        // TODO: Fill in this method.
-        return false;
+            if (isFull(row, col) && isConnectedToBottom(row, col))
+                percolates = true;
+            numberOfOpenSites++;
+        }
     }
 
     public boolean isFull(int row, int col) {
-        // TODO: Fill in this method.
-        return false;
+        if (!valid(row, col))
+            throw new IndexOutOfBoundsException();
+        if (row == 0 && isOpen(row, col))
+            return isFull[wqu.find(enc(row, col))] = true;
+        return isFull[wqu.find(enc(row, col))];
+    }
+
+    private boolean isConnectedToBottom(int row, int col) {
+        if (!valid(row, col))
+            throw new IndexOutOfBoundsException();
+        if (row == n - 1 && isOpen(row, col))
+            return isConnectedToBottom[wqu.find(enc(row, col))] = true;
+        return isConnectedToBottom[wqu.find(enc(row, col))];
+    }
+
+    public boolean isOpen(int row, int col) {
+        if (!valid(row, col))
+            throw new IndexOutOfBoundsException();
+        return isOpen[row][col];
     }
 
     public int numberOfOpenSites() {
-        // TODO: Fill in this method.
-        return 0;
+        return numberOfOpenSites;
     }
 
     public boolean percolates() {
-        // TODO: Fill in this method.
-        return false;
+        return percolates;
     }
-
-    // TODO: Add any useful helper methods (we highly recommend this!).
-    // TODO: Remove all TODO comments before submitting.
 
 }
