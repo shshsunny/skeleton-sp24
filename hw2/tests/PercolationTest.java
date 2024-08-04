@@ -82,4 +82,57 @@ public class PercolationTest {
     // TODO: Using the given tests above as a template,
     // write some more tests and delete the fail() line
 
+    @Test
+    public void myTest() {
+        int N = 6;
+        Percolation p = new Percolation(N);
+        /*
+         * int[][] sites = {
+         * { 5, 1 },
+         * { 4, 1 },
+         * { 4, 0 },
+         * { 3, 0 },
+         * { 2, 0 },
+         * { 1, 0 },
+         * { 1, 1 },
+         * { 1, 2 },
+         * { 1, 3 },
+         * { 2, 3 },
+         * { 3, 3 },
+         * { 4, 3 },
+         * { 4, 4 },
+         * { 4, 5 },
+         * { 3, 5 },
+         * { 2, 5 },
+         * { 1, 5 },
+         * { 0, 5 }
+         * };
+         */
+        int[][] sites = {
+                { 0, 5 },
+                { 1, 5 },
+                { 2, 5 },
+                { 3, 5 },
+                { 4, 5 },
+                { 4, 4 },
+                { 3, 3 },
+                { 2, 3 },
+                { 1, 3 },
+                { 1, 2 },
+                { 1, 1 },
+                { 1, 0 },
+                { 2, 0 },
+                { 3, 0 },
+                { 4, 0 },
+                { 4, 1 },
+                { 5, 1 },
+                { 4, 3 } // 应该在加上最后一块后连通
+        };
+
+        for (int[] site : sites) {
+            p.open(site[0], site[1]);
+        }
+
+        assertThat(p.percolates()).isTrue();
+    }
 }

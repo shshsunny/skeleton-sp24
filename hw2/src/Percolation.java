@@ -33,11 +33,13 @@ public class Percolation {
     public void open(int row, int col) {
         if (!isOpen[row][col]) {
             isOpen[row][col] = true;
-            boolean thisIsFull = isFull(row, col);
-            boolean thisIsConnectedToBottom = isConnectedToBottom(row, col);
             for (int i = 0; i < 4; ++i) {
                 int nr = row + DIRS[i][0], nc = col + DIRS[i][1];
                 if (valid(nr, nc) && isOpen[nr][nc]) {
+                    // collect the attributes of this newly opened site and its neighbor sites(the
+                    // former must be collected every loop to be up-to-date!)
+                    boolean thisIsFull = isFull(row, col);
+                    boolean thisIsConnectedToBottom = isConnectedToBottom(row, col);
                     boolean ithIsFull = isFull(nr, nc);
                     boolean ithIsConnectedToBottom = isConnectedToBottom(nr, nc);
                     wqu.union(enc(row, col), enc(nr, nc));
