@@ -1,6 +1,8 @@
 package ngrams;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeMap;
 
 /**
@@ -11,9 +13,12 @@ import java.util.TreeMap;
  */
 public class TimeSeries extends TreeMap<Integer, Double> {
 
-    /** If it helps speed up your code, you can assume year arguments to your NGramMap
+    /**
+     * If it helps speed up your code, you can assume year arguments to your
+     * NGramMap
      * are between 1400 and 2100. We've stored these values as the constants
-     * MIN_YEAR and MAX_YEAR here. */
+     * MIN_YEAR and MAX_YEAR here.
+     */
     public static final int MIN_YEAR = 1400;
     public static final int MAX_YEAR = 2100;
 
@@ -30,15 +35,21 @@ public class TimeSeries extends TreeMap<Integer, Double> {
      */
     public TimeSeries(TimeSeries ts, int startYear, int endYear) {
         super();
-        // TODO: Fill in this constructor.
+        for (int i = startYear; i <= endYear; ++i) {
+            if (ts.containsKey(i))
+                put(i, ts.get(i));
+        }
     }
 
     /**
      * Returns all years for this TimeSeries (in any order).
      */
     public List<Integer> years() {
-        // TODO: Fill in this method.
-        return null;
+        List<Integer> res = new ArrayList<>();
+        for (int key : keySet()) {
+            res.add(key);
+        }
+        return res;
     }
 
     /**
@@ -46,27 +57,44 @@ public class TimeSeries extends TreeMap<Integer, Double> {
      * Must be in the same order as years().
      */
     public List<Double> data() {
-        // TODO: Fill in this method.
-        return null;
+        List<Double> res = new ArrayList<>();
+        for (int key : years())
+            res.add(get(key));
+        return res;
     }
 
     /**
-     * Returns the year-wise sum of this TimeSeries with the given TS. In other words, for
-     * each year, sum the data from this TimeSeries with the data from TS. Should return a
+     * Returns the year-wise sum of this TimeSeries with the given TS. In other
+     * words, for
+     * each year, sum the data from this TimeSeries with the data from TS. Should
+     * return a
      * new TimeSeries (does not modify this TimeSeries).
      *
      * If both TimeSeries don't contain any years, return an empty TimeSeries.
-     * If one TimeSeries contains a year that the other one doesn't, the returned TimeSeries
+     * If one TimeSeries contains a year that the other one doesn't, the returned
+     * TimeSeries
      * should store the value from the TimeSeries that contains that year.
      */
     public TimeSeries plus(TimeSeries ts) {
-        // TODO: Fill in this method.
-        return null;
+        TimeSeries res = new TimeSeries();
+        for (int key : years()) {
+            if (ts.containsKey(key))
+                res.put(key, get(key) + ts.get(key));
+            else
+                res.put(key, get(key));
+        }
+        for (int key : ts.years()) {
+            if (!containsKey(key))
+                res.put(key, ts.get(key));
+        }
+        return res;
     }
 
     /**
-     * Returns the quotient of the value for each year this TimeSeries divided by the
-     * value for the same year in TS. Should return a new TimeSeries (does not modify this
+     * Returns the quotient of the value for each year this TimeSeries divided by
+     * the
+     * value for the same year in TS. Should return a new TimeSeries (does not
+     * modify this
      * TimeSeries).
      *
      * If TS is missing a year that exists in this TimeSeries, throw an
@@ -74,10 +102,12 @@ public class TimeSeries extends TreeMap<Integer, Double> {
      * If TS has a year that is not in this TimeSeries, ignore it.
      */
     public TimeSeries dividedBy(TimeSeries ts) {
-        // TODO: Fill in this method.
-        return null;
+        TimeSeries res = new TimeSeries();
+        for (int key : years()) {
+            if (!ts.containsKey(key))
+                throw new IllegalArgumentException("missing a year in the given TimeSeries");
+            res.put(key, get(key) / ts.get(key));
+        }
+        return res;
     }
-
-    // TODO: Add any private helper methods.
-    // TODO: Remove all TODO comments before submitting.
 }
